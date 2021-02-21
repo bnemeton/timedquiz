@@ -7,7 +7,11 @@ A short timed quiz written in JavaScript.
 * When time runs out or the final question is answered, results are tallied and displayed.
 * If the user clicks the "play again" button, the timer and score are reset and the quiz begins again.
 
+## Deployed link
+ https://bnemeton.github.io/timedquiz/
+
 ## Screenshots
+
 [A screenshot of the quiz once it has started.](assets/screen1.png)
 
 [A screenshot of the results screen once the quiz is over.](assets/screen2.png)
