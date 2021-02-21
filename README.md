@@ -9,4 +9,5 @@ A short timed quiz written in JavaScript.
 
 ## Screenshots
 [A screenshot of the quiz once it has started.](assets/screen1.png)
+
 [A screenshot of the results screen once the quiz is over.](assets/screen2.png)
