@@ -8,7 +8,7 @@ A short timed quiz written in JavaScript.
 * If the user clicks the "play again" button, the timer and score are reset and the quiz begins again.
 
 ## Deployed link
- https://bnemeton.github.io/timedquiz/
+https://bnemeton.github.io/timedquiz/
 
 ## Screenshots
 
