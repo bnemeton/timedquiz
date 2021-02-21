@@ -15,9 +15,11 @@ var thirdAnswer = document.querySelector("#answer3");
 var fourthAnswer = document.querySelector("#answer4");
 
 var score;
+var savedScores = [];
 var timeLeft = 30;
 var timerEl = document.querySelector("#timer")
 var answersRadio = 0;
+var intervalID;
 
 //store the questions and their answers in an array of objects
 var questions = [
@@ -43,6 +45,43 @@ var nextQuestion = function() {
 
 }
 
+//function to start quiz again
+function playAgain() {
+    score = 0;
+    document.querySelector("#score").innerHTML = score + " points out of 3.";
+
+    clearInterval(intervalID);
+    timeLeft = 30;
+    interval();
+
+    currentQuestion = 0;
+    document.querySelector("#scoreCard").style.display = "none";
+    document.querySelector("#quizCard").style.display = "block";
+
+    questionEl.innerHTML = questions[currentQuestion].q
+    firstAnswerLabel.innerHTML = questions[currentQuestion].options[0];
+    secondAnswerLabel.innerHTML = questions[currentQuestion].options[1];
+    thirdAnswerLabel.innerHTML = questions[currentQuestion].options[2];
+    fourthAnswerLabel.innerHTML = questions[currentQuestion].options[3];
+};
+
+//function to end timer and display results
+function results() {
+    clearInterval(intervalID);
+    document.querySelector("#scoreCard").style.display = "block";
+    document.querySelector("#quizCard").style.display = "none";
+    var initials = window.prompt("Please enter initials or a name to save your score.")
+    savedScores.push({initials: initials, score: score})
+    document.querySelector("#scores").innerHTML = "";
+    
+    for (var i = 0; i < savedScores.length; i++) {
+        var item = document.createElement("li");
+        item.innerHTML = savedScores[i].initials + ": " + savedScores[i].score;
+        document.querySelector("#scores").appendChild(item);
+    }
+};
+
+//begin the quiz
 var begin = function() {
     score = 0;
     console.log("beginning")
@@ -51,6 +90,7 @@ var begin = function() {
     return;
 }
 
+//tell whether an answer is correct; award points or subtract time appropriately
 checkAnswer = function (choice) {
     if (choice === questions[currentQuestion].right) {
         score++;
@@ -66,15 +106,16 @@ checkAnswer = function (choice) {
     }
 }
 
+//set up the timer
 function interval() {
-    setInterval(function(){
+    intervalID = setInterval(function(){
     timerEl.innerHTML=timeLeft + " seconds remaining...";
     timeLeft--;
     localStorage.setItem("timeLeft", timeLeft);
-    if (timeLeft === 0){
-      clearInterval(interval);
+    if (timeLeft <= 0){
+        clearInterval(intervalID)
       alert("You're out of time!");
-      window.location.href = "results.html"
+      results();
     }
   }, 1000)
 };
@@ -88,7 +129,8 @@ submitBtn.addEventListener("click", function() {
         console.log(currentQuestion)
         nextQuestion();
     } else if (currentQuestion <= questions.length-1) {
-        window.location.href ="results.html";
+        clearInterval(intervalID);
+       results();
     }
 
 
@@ -100,7 +142,9 @@ startBtn.addEventListener("click", function(){
     interval();
 });
 
-function scores() {
-    document.querySelector("#score").innerHTML = localStorage.getItem("score") + " points out of 3."
-    document.querySelector("#timeLeft").innerHTML = localStorage.getItem("timeLeft") + " seconds were left."
-}
+//listener on the play again button
+playAgainBtn.addEventListener("click", function() {
+    playAgain();
+});
+
+ 
